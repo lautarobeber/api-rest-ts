@@ -1,9 +1,8 @@
 import express from "express";
-import diariesRoutes from "./routes/diaries";
+import diariesRoutes from "../src/routes/diaries";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import serverless from "serverless-http";
 
 
 const app = express();
@@ -43,5 +42,3 @@ app.get('*', (_req, res) => {
 app.listen(PORT || 3000, () => {
   console.log(`server running on port ${PORT} `);
 });
-
-export const handler = serverless(app);

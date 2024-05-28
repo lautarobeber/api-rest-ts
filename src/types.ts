@@ -1,4 +1,4 @@
-import { Document } from "mongoose"
+
 export enum Visibility {
   Escasa = 'Escasa',
   Perfecta = 'Perfecta',
@@ -11,7 +11,7 @@ export enum Weather {
   Tormentoso = 'Tormentoso',
 }
 
-export interface DiaryEntry extends Document {
+export interface DiaryEntry {
   id: number
   date: string
   weather: Weather
