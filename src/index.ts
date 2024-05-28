@@ -1,20 +1,44 @@
-import express from 'express'
-import diariesRoutes from './routes/diaries'
+import express from "express";
+import diariesRoutes from "./routes/diaries";
+import cors from "cors";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
-const app = express()
 
-app.use(express.json())
+const app = express();
+dotenv.config();
 
-const PORT = 3000
+const PORT = process.env.PORT as string;
+const uri = process.env.URI as string;
 
+mongoose.connect(uri)
+  .then(() => {
+    console.log('connected to MongoDB');
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message);
+    
+  });
+
+app.use(cors());
+
+app.use(express.json());
+
+
+app.use('/', express.static('dist'));
 // _ Ignora el parametro
-app.get('/ping', (_req, res) => {
-  console.log('alguien pinguino')
-  res.send('pong')
-})
+app.get("/ping", (_req, res) => {
+  console.log("alguien pinguino");
+  res.send("pong");
+});
 
-app.use('/api/diaries', diariesRoutes)
+app.use("/api/diaries", diariesRoutes);
 
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT} `)
-})
+app.get('*', (_req, res) => {
+  res.send("Aca no hay nada!");;
+});
+
+
+app.listen(PORT || 3000, () => {
+  console.log(`server running on port ${PORT} `);
+});
